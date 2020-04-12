@@ -19,9 +19,12 @@ public class HookShot : MonoBehaviour, IItem
     public GameObject player;
     public GameObject hookedObj;
     public GameObject firstPersonCharacter;
+    public Rigidbody babyplayerRB;
     
     public Rigidbody hookRB;
     public Rigidbody playerRB;
+
+    public Vector3 hookStartingSize;
 
     public Transform playerStartPos;
 
@@ -31,6 +34,7 @@ public class HookShot : MonoBehaviour, IItem
         hooked = false;
         Debug.Log($"hook parent = {hook.transform.parent}");
         playerStartPos = player.transform;
+        hookStartingSize = hook.transform.localScale;
         // Use();
         // AltUse();
     }
@@ -59,12 +63,14 @@ public class HookShot : MonoBehaviour, IItem
             
             //player.transform.position = Vector3.MoveTowards(player.transform.position, hook.transform.position, playerTravelSpeed);
             player.GetComponent<Rigidbody>().useGravity = false;
+            player.transform.Translate(hook.transform.position);
             player.transform.position = hook.transform.position;
             //player.transform.position = playerStartPos.position;
             
             Debug.Log($"Gravity = {player.GetComponent<Rigidbody>().useGravity}");
             hook.transform.parent = firstPersonCharacter.transform;
             ReturnHook();
+            hook.transform.localScale = hookStartingSize;
         }
 
     }
@@ -73,13 +79,13 @@ public class HookShot : MonoBehaviour, IItem
         Debug.Log("AltUse()");
     }
 
-    /*public void Pickup(Transform hand){
+    public void Pickup(Transform hand){
 
     }
 
     public void Drop(){
     
-    }*/
+    }
 
     void FireHook(){
         RaycastHit hit;
@@ -94,6 +100,12 @@ public class HookShot : MonoBehaviour, IItem
         shot = false;
         hooked = false;
     }
+
+    void OnTriggerEnter(Collider other){
+        babyplayerRB.isKinematic = true;
+    }
+
+    
 
     /*public void OnTriggerEnter(Collider other){
         Debug.Log("OnTrigger");

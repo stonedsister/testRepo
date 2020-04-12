@@ -51,6 +51,14 @@ public class SlugThrower : MonoBehaviour, IItem
 		Debug.Log("Alt fire!");
 	}
 
+	public void Pickup(Transform hand){
+
+	}
+
+	public void Drop(){
+		
+	}
+
 	IEnumerator WaitToFire() {
 		canFire = false;
 		yield return new WaitForSeconds(interval);
